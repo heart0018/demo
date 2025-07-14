@@ -411,10 +411,15 @@ body {
   touch-action: none;
 }
 
-/* モバイル対応：カードスタックの余白を元に戻す */
+/* モバイル対応：カードスタックの高さを調整 */
 @media (max-width: 768px) {
+  .swipe-content {
+    padding: 20px;
+  }
+  
   .card-stack {
-    margin-bottom: 30px; /* 元の設定に戻す */
+    height: calc(100vh - 320px);
+    margin-bottom: 20px;
   }
 }
 
@@ -433,24 +438,40 @@ body {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
+  z-index: 5;
+}
+
+.swipe-card:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .swipe-card {
+    cursor: default;
+  }
+  
+  .swipe-card:active {
+    transform: scale(1);
+  }
 }
 
 .swipe-card.dragging {
   cursor: grabbing;
   transition: none;
-  z-index: 10;
+  z-index: 20;
   -webkit-user-drag: none;
 }
 
 .card-background {
   transform: scale(0.95);
-  opacity: 0.7;
+  opacity: 0.1;
   z-index: 1;
+  pointer-events: none;
 }
 
 .card-image {
   position: relative;
-  height: 60%;
+  height: 65%;
   overflow: hidden;
 }
 
@@ -458,6 +479,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .swipe-indicator {
@@ -472,7 +494,7 @@ body {
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   z-index: 10;
-  pointer-events: none; /* タッチ判定を無効化 */
+  pointer-events: none;
 }
 
 .swipe-indicator.like {
@@ -485,10 +507,11 @@ body {
 
 .card-info {
   padding: 20px;
-  height: 40%;
+  height: 35%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  pointer-events: none;
 }
 
 .card-title {
@@ -567,16 +590,17 @@ body {
 @media (max-width: 768px) {
   .swipe-actions {
     position: fixed;
-    bottom: 140px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 15;
     margin-bottom: 0;
     gap: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 12px 20px;
     border-radius: 30px;
     backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   }
 
   .action-button {
@@ -632,7 +656,7 @@ body {
 @media (max-width: 768px) {
   .external-actions {
     position: fixed;
-    bottom: 80px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 15;
@@ -641,9 +665,10 @@ body {
   .external-button {
     font-size: 0.9rem;
     padding: 12px 24px;
-    background: rgba(102, 126, 234, 0.9);
+    background: rgba(102, 126, 234, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   }
 }
 

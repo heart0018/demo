@@ -871,7 +871,17 @@ export default function SwipeCards() {
   };
 
   const handleDragStart = (e) => {
-    e.preventDefault();
+    // ボタンクリックかどうかを判定
+    const target = e.target;
+    if (target.closest('.action-button, .external-button')) {
+      return;
+    }
+    
+    // タッチイベントの場合のみpreventDefault
+    if (e.type === "touchstart") {
+      e.preventDefault();
+    }
+    
     setIsDragging(true);
 
     // マウスイベントとタッチイベントを区別
@@ -897,7 +907,7 @@ export default function SwipeCards() {
     const handleGlobalMouseUp = () => {
       if (!isDragging) return;
 
-      const threshold = 80; // モバイルでは少し小さく
+      const threshold = 80;
 
       if (Math.abs(dragOffset.x) > threshold) {
         if (dragOffset.x > 0) {
@@ -914,7 +924,8 @@ export default function SwipeCards() {
     const handleGlobalTouchMove = (e) => {
       if (!isDragging || e.touches.length === 0) return;
       
-      e.preventDefault(); // スクロールを防止
+      // スクロールを防止
+      e.preventDefault();
 
       const touch = e.touches[0];
       const deltaX = touch.clientX - startPos.x;
@@ -926,9 +937,9 @@ export default function SwipeCards() {
     const handleGlobalTouchEnd = (e) => {
       if (!isDragging) return;
       
-      e.preventDefault(); // デフォルトの動作を防止
+      e.preventDefault();
 
-      const threshold = 80; // モバイルでは少し小さく
+      const threshold = 80;
 
       if (Math.abs(dragOffset.x) > threshold) {
         if (dragOffset.x > 0) {
@@ -1018,7 +1029,7 @@ export default function SwipeCards() {
 
       <div className="swipe-content">
         <div className="card-stack">
-          {/* 次のカード（背景） */}
+          {/* 次のカード（背景）は透明度を上げてほぼ見えなくする */}
           {currentIndex + 1 < cards.length && (
             <div className="swipe-card card-background">
               <div className="card-image">
@@ -1035,18 +1046,18 @@ export default function SwipeCards() {
             className={`swipe-card ${isDragging ? "dragging" : ""}`}
             style={{
               transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) rotate(${dragOffset.x * 0.1}deg)`,
-              opacity: isDragging ? 0.8 : 1,
+              opacity: isDragging ? 0.95 : 1,
             }}
             onMouseDown={handleDragStart}
             onTouchStart={handleDragStart}
           >
             <div className="card-image">
               <img src={currentCard.image_url} alt={currentCard.name} />
-              {/* スワイプインジケーターを画像内に戻す */}
-              {dragOffset.x > 40 && (
+              {/* スワイプインジケーター */}
+              {dragOffset.x > 50 && (
                 <div className="swipe-indicator like">LIKE</div>
               )}
-              {dragOffset.x < -40 && (
+              {dragOffset.x < -50 && (
                 <div className="swipe-indicator nope">NOPE</div>
               )}
             </div>
