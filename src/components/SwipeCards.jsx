@@ -887,7 +887,7 @@ export default function SwipeCards() {
     const handleGlobalMouseUp = () => {
       if (!isDragging) return;
 
-      const threshold = 100;
+      const threshold = 80; // モバイルでは少し小さく
 
       if (Math.abs(dragOffset.x) > threshold) {
         if (dragOffset.x > 0) {
@@ -903,6 +903,8 @@ export default function SwipeCards() {
 
     const handleGlobalTouchMove = (e) => {
       if (!isDragging || e.touches.length === 0) return;
+      
+      e.preventDefault(); // スクロールを防止
 
       const touch = e.touches[0];
       const deltaX = touch.clientX - startPos.x;
@@ -911,10 +913,12 @@ export default function SwipeCards() {
       setDragOffset({ x: deltaX, y: deltaY });
     };
 
-    const handleGlobalTouchEnd = () => {
+    const handleGlobalTouchEnd = (e) => {
       if (!isDragging) return;
+      
+      e.preventDefault(); // デフォルトの動作を防止
 
-      const threshold = 100;
+      const threshold = 80; // モバイルでは少し小さく
 
       if (Math.abs(dragOffset.x) > threshold) {
         if (dragOffset.x > 0) {
@@ -931,8 +935,9 @@ export default function SwipeCards() {
     if (isDragging) {
       document.addEventListener("mousemove", handleGlobalMouseMove);
       document.addEventListener("mouseup", handleGlobalMouseUp);
-      document.addEventListener("touchmove", handleGlobalTouchMove);
-      document.addEventListener("touchend", handleGlobalTouchEnd);
+      // タッチイベントはpassive: falseで追加してpreventDefaultを有効にする
+      document.addEventListener("touchmove", handleGlobalTouchMove, { passive: false });
+      document.addEventListener("touchend", handleGlobalTouchEnd, { passive: false });
     }
 
     return () => {
@@ -1027,10 +1032,10 @@ export default function SwipeCards() {
           >
             <div className="card-image">
               <img src={currentCard.image_url} alt={currentCard.name} />
-              {dragOffset.x > 50 && (
+              {dragOffset.x > 40 && (
                 <div className="swipe-indicator like">LIKE</div>
               )}
-              {dragOffset.x < -50 && (
+              {dragOffset.x < -40 && (
                 <div className="swipe-indicator nope">NOPE</div>
               )}
             </div>
