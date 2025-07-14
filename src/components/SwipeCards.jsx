@@ -1040,16 +1040,15 @@ export default function SwipeCards() {
             onMouseDown={handleDragStart}
             onTouchStart={handleDragStart}
           >
-            {/* スワイプインジケーター */}
-            {dragOffset.x > 40 && (
-              <div className="swipe-indicator like">LIKE</div>
-            )}
-            {dragOffset.x < -40 && (
-              <div className="swipe-indicator nope">NOPE</div>
-            )}
-
             <div className="card-image">
               <img src={currentCard.image_url} alt={currentCard.name} />
+              {/* スワイプインジケーターを画像内に戻す */}
+              {dragOffset.x > 40 && (
+                <div className="swipe-indicator like">LIKE</div>
+              )}
+              {dragOffset.x < -40 && (
+                <div className="swipe-indicator nope">NOPE</div>
+              )}
             </div>
 
             <div className="card-info">
@@ -1084,46 +1083,46 @@ export default function SwipeCards() {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* アクションボタン */}
-          <div className="swipe-actions">
-            <button 
-              className="action-button nope" 
-              onClick={(e) => handleButtonClick(handlePass, e)}
-            >
-              <X size={24} />
-            </button>
+        {/* アクションボタン - card-stackの外に移動 */}
+        <div className="swipe-actions">
+          <button 
+            className="action-button nope" 
+            onClick={(e) => handleButtonClick(handlePass, e)}
+          >
+            <X size={24} />
+          </button>
 
-            <button 
-              className="action-button later" 
-              onClick={(e) => handleButtonClick(handleLater, e)}
-            >
-              後で
-            </button>
+          <button 
+            className="action-button later" 
+            onClick={(e) => handleButtonClick(handleLater, e)}
+          >
+            後で
+          </button>
 
-            <button 
-              className="action-button like" 
-              onClick={(e) => handleButtonClick(handleLike, e)}
-            >
-              <Heart size={24} />
-            </button>
-          </div>
+          <button 
+            className="action-button like" 
+            onClick={(e) => handleButtonClick(handleLike, e)}
+          >
+            <Heart size={24} />
+          </button>
+        </div>
 
-          {/* 外部リンクボタン */}
-          <div className="external-actions">
-            <button
-              className="external-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleExternalLink(currentCard.external_url);
-              }}
-            >
-              <ExternalLink size={20} />
-              {currentCard.genre === "ドラマ" || currentCard.genre === "アニメ"
-                ? "これを観る！"
-                : "ここに行く！"}
-            </button>
-          </div>
+        {/* 外部リンクボタン - card-stackの外に移動 */}
+        <div className="external-actions">
+          <button
+            className="external-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleExternalLink(currentCard.external_url);
+            }}
+          >
+            <ExternalLink size={20} />
+            {currentCard.genre === "ドラマ" || currentCard.genre === "アニメ"
+              ? "これを観る！"
+              : "ここに行く！"}
+          </button>
         </div>
       </div>
     </div>
