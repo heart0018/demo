@@ -411,6 +411,13 @@ body {
   touch-action: none;
 }
 
+/* モバイル対応：カードスタックでボタンの余白を確保 */
+@media (max-width: 768px) {
+  .card-stack {
+    margin-bottom: 160px; /* ボタンの分の余白を確保 */
+  }
+}
+
 .swipe-card {
   position: absolute;
   width: 100%;
@@ -455,23 +462,27 @@ body {
 
 .swipe-indicator {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 2rem;
   font-weight: bold;
-  padding: 20px;
-  border-radius: 10px;
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  z-index: 10;
 }
 
 .swipe-indicator.like {
-  background: rgba(34, 197, 94, 0.9);
+  background: rgba(34, 197, 94, 0.7);
 }
 
 .swipe-indicator.nope {
-  background: rgba(239, 68, 68, 0.9);
+  background: rgba(239, 68, 68, 0.7);
 }
 
 .card-info {
@@ -554,6 +565,29 @@ body {
   margin-bottom: 20px;
 }
 
+/* モバイル対応：ボタンをカードの上に表示 */
+@media (max-width: 768px) {
+  .swipe-actions {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    margin-bottom: 0;
+    gap: 15px;
+  }
+
+  .action-button {
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .action-button.later {
+    font-size: 0.8rem;
+  }
+}
+
 .action-button {
   width: 60px;
   height: 60px;
@@ -590,6 +624,22 @@ body {
 .external-actions {
   display: flex;
   justify-content: center;
+}
+
+/* モバイル対応：外部リンクボタンも調整 */
+@media (max-width: 768px) {
+  .external-actions {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+  }
+
+  .external-button {
+    font-size: 0.9rem;
+    padding: 12px 24px;
+  }
 }
 
 .external-button {
